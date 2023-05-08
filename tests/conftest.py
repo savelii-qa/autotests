@@ -20,6 +20,5 @@ def log(log_level=logging.INFO):
 @pytest.fixture(scope="function")
 def create_post():
     post = Post()
-    r = HTTPRequest(method='POST', uri='/posts', body=post.generate_post())
-    id = r.json["id"]
-    return id
+    post_id = post.create_post()["id"]
+    return post_id

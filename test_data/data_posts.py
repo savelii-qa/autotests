@@ -2,7 +2,7 @@ from models.models import PostModel, CreatedPost
 from models.test import TestCaseData
 import uuid
 import shortuuid
-
+from core.http_request import HTTPRequest
 
 def uuid_creation():
     uuid_id = f'{(uuid.uuid4())}'
@@ -12,19 +12,24 @@ def uuid_creation():
 USER_ID = 69
 
 
+import json
+import uuid
+
 class Post:
     def __init__(self):
         self.userId = USER_ID
-        self.title = f"{uuid_creation()}"
+        self.title = str(uuid.uuid4())
         self.body = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
 
-    def generate_post(self):
+    def create_post(self):
         post = {
             "userId": self.userId,
             "title": self.title,
             "body": self.body
         }
-        return post
+        r = HTTPRequest(method='POST', uri='/posts', body=post)
+        response = r.json
+        return response
 
 
 # suppose that validation for Title (20-50, uniq), Body (20-500)
